@@ -18,9 +18,9 @@ let ``string representation of empty grid is empty string``() =
 
 [<Fact>]
 let ``string representation of single cell is something``() = 
-    let m = GridBuilder(1,1)
+    let m = GridBuilder(1,2)
     let expected = [
-        "+---+"; 
-        "|   |"; 
-        "+---+"]
+        "+---+---+"; 
+        "|   |   |"; 
+        "+---+---+"]
     m |> display |> should matchList expected
