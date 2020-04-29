@@ -2,6 +2,7 @@ module Tests
 
 open System
 open Xunit
+open FsUnit
 open FsUnit.Xunit
 open Maze.Core
 
@@ -13,7 +14,7 @@ let ``initialize maze builder`` () =
 [<Fact>]
 let ``string representation of empty grid is empty string``() = 
     let m = GridBuilder(0,0)
-    m |> display |> should equal []
+    m |> display |> should matchList []
 
 [<Fact>]
 let ``string representation of single cell is something``() = 
@@ -22,4 +23,4 @@ let ``string representation of single cell is something``() =
         "+---+"; 
         "|   |"; 
         "+---+"]
-    m |> display |> should equal expected
+    m |> display |> should matchList expected
