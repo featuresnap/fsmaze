@@ -1,26 +1,57 @@
 module Tests
 
-open System
 open Xunit
-open FsUnit
 open FsUnit.Xunit
 open Maze.Core
 
 [<Fact>]
-let ``initialize maze builder`` () =
-    let m = GridBuilder(3,4)
-    printfn " Grid: %A " m
+let ``string representation of empty grid is empty string``() =
+    GridBuilder(0, 0)
+    |> display
+    |> should haveLength 0
 
 [<Fact>]
-let ``string representation of empty grid is empty string``() = 
-    let m = GridBuilder(0,0)
-    m |> display |> should matchList []
+let ``string representation of grid with zero rows is empty string``() =
+    GridBuilder(0, 1)
+    |> display
+    |> should haveLength 0
 
 [<Fact>]
-let ``string representation of single cell is something``() = 
-    let m = GridBuilder(1,2)
-    let expected = [
+let ``string representation of grid with zero columns is empty string``() =
+    GridBuilder(0, 1)
+    |> display
+    |> should haveLength 0
+
+[<Fact>]
+let ``string representation of 1 X 2 grid has 2 cells side by side``() =
+    let expected = [ 
         "+---+---+"; 
         "|   |   |"; 
-        "+---+---+"]
-    m |> display |> should matchList expected
+        "+---+---+" ]
+    GridBuilder(1, 2)
+    |> display
+    |> should matchList expected
+
+[<Fact>]
+let ``string representation of 2 X 1 grid has 2 cells stacked vertically``() =
+    let expected = [ 
+        "+---+"; 
+        "|   |"; 
+        "+---+";
+        "|   |"; 
+        "+---+" ]    
+    GridBuilder(2, 1)
+    |> display
+    |> should matchList expected
+
+[<Fact>]
+let ``string representation of 2 X 2 grid has 2 X 2 cells``() =
+    let expected = [ 
+        "+---+---+"; 
+        "|   |   |"; 
+        "+---+---+" 
+        "|   |   |"; 
+        "+---+---+" ]
+    GridBuilder(2, 2)
+    |> display
+    |> should matchList expected
