@@ -32,10 +32,11 @@ module Core =
 
               sbTop |> appendChar '+'
               sbMiddle |> appendChar '|'
+
               yield sbTop |> string
               yield sbMiddle |> string ]
 
-        let makeBottomRow rowIndex =
+        let makeBottomEdge maxRow =
             let sb = StringBuilder()
             for col in 0 .. maxCol do
                 sb |> appendStr "+---"
@@ -44,4 +45,4 @@ module Core =
         [ if maxRow >= 0 && maxCol >= 0 then
             for rowIndex in 0 .. (gridBuilder.RowCount - 1) do
                 yield! makeRow rowIndex
-            yield makeBottomRow maxRow ]
+            yield makeBottomEdge maxRow ]
