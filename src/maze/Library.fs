@@ -5,9 +5,8 @@ module Core =
 
     type Cell = | Cell
 
-    type GridBuilder(rows, cols) =
-        let cells = Array2D.init rows cols (fun x y -> Cell)
-        let links = []
+    type GridBuilder(rows, cols, ?links) =
+        let links = [] |> defaultArg links
         member x.RowCount = rows
         member x.ColumnCount = cols
 
@@ -46,3 +45,9 @@ module Core =
             for rowIndex in 0 .. (gridBuilder.RowCount - 1) do
                 yield! makeRow rowIndex
             yield makeBottomEdge maxRow ]
+
+    let withLink cellFrom cellTo  (gridBuilder: GridBuilder) : GridBuilder = 
+        GridBuilder(0,0)
+
+    let hasLink cellFrom cellTo (gridBuider: GridBuilder) : bool =
+        false

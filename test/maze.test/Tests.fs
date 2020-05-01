@@ -55,3 +55,11 @@ let ``string representation of 2 X 2 grid has 2 X 2 cells``() =
     GridBuilder(2, 2)
     |> display
     |> should matchList expected
+
+[<Fact>]
+let ``links cells in 1 X 2 grid``() =
+ 
+    GridBuilder(1, 2)
+    |> withLink (0,0) (0,1)
+    |> hasLink (0,0) (0,1)
+    |> should be True
