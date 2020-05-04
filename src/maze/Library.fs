@@ -2,13 +2,31 @@
 
 module Core =
     open System.Text
+    open System.Collections.Generic
 
-    type Cell = | Cell
+    type GridBuilder(rows, cols, ?links) as this =
+        let links = Dictionary<int * int, HashSet<int * int>>() |> defaultArg links
+        let ensurePresent key = 
+            let (exists, item) = links.TryGetValue key
+            if exists 
+            then item
+            else 
+                let h = HashSet<_>()
+                links.Add(key, h) |> ignore
+                h
 
-    type GridBuilder(rows, cols, ?links) =
-        let links = [] |> defaultArg links
         member x.RowCount = rows
         member x.ColumnCount = cols
+        member x.AddLink(fromCell, toCell) = 
+            let hs = ensurePresent fromCell
+            hs.Add(toCell) |> ignore
+        member x.HasLink(fromCell, toCell) = 
+            let (exists, value) = links.TryGetValue fromCell
+            if exists 
+            then value.Contains(toCell)
+            else false
+            
+            
 
     let private appendChar (c: char) (sb: StringBuilder) = sb.Append(c) |> ignore
     let private appendStr (s: string) (sb: StringBuilder) = sb.Append(s) |> ignore
@@ -47,7 +65,9 @@ module Core =
             yield makeBottomEdge maxRow ]
 
     let withLink cellFrom cellTo  (gridBuilder: GridBuilder) : GridBuilder = 
-        GridBuilder(0,0)
+        gridBuilder.AddLink (cellFrom, cellTo)
+        gridBuilder
+        
 
     let hasLink cellFrom cellTo (gridBuider: GridBuilder) : bool =
-        false
+        gridBuider.HasLink(cellFrom, cellTo)
