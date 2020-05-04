@@ -63,3 +63,12 @@ let ``links cells in 1 X 2 grid``() =
     |> withLink (0,0) (0,1)
     |> hasLink (0,0) (0,1)
     |> should be True
+
+[<Fact>]
+let ``links cells in 1 X 2 grid includes reverse link``() =
+ 
+    GridBuilder(1, 2)
+    |> withLink (0,0) (0,1)
+    |> hasLink (0,1) (0,0)
+    |> should be True
+
