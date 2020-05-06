@@ -13,7 +13,8 @@ module TextDisplay =
         let maxRow = gridBuilder.RowCount - 1
         let maxCol = gridBuilder.ColumnCount - 1
 
-        let tops = "+---"
+        let topWall = "+---"
+        let topOpen = "+   "
         let middles = "|   "
 
         let makeRow rowIndex =
@@ -21,7 +22,11 @@ module TextDisplay =
               let sbMiddle = StringBuilder()
 
               for col in 0 .. maxCol do
-                  sbTop |> appendStr tops
+                  if gridBuilder |> hasLink (rowIndex - 1, col) (rowIndex, col)
+                  then sbTop |> appendStr topOpen
+                  else sbTop |> appendStr topWall
+
+
                   sbMiddle |> appendStr middles
 
               sbTop |> appendChar '+'

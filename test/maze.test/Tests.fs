@@ -83,4 +83,17 @@ let ``links cells in 2 X 2 grid includes reverse link``() =
     |> should be True
 
 
+[<Fact>]
+let ``string representation - internal links within same column``() =
+    let expected = [ 
+        "+---+---+"; 
+        "|   |   |"; 
+        "+   +   +" 
+        "|   |   |"; 
+        "+---+---+" ]
+    GridBuilder(2, 2)
+    |> withLink (0,0) (1,0)
+    |> withLink (0,1) (1,1)
+    |> display
+    |> should matchList expected
 
