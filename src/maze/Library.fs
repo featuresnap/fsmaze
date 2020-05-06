@@ -3,30 +3,33 @@
 module Core =
     open System.Text
     open System.Collections.Generic
+    open System.Collections.Concurrent
 
-    type GridBuilder(rows, cols, ?links) as this =
-        let links = Dictionary<int * int, HashSet<int * int>>() |> defaultArg links
-        let ensurePresent key = 
-            let (exists, item) = links.TryGetValue key
-            if exists 
-            then item
-            else 
-                let h = HashSet<_>()
-                links.Add(key, h) |> ignore
-                h
+
+    type GridBuilder(rows, cols) =
+        let links =
+            ConcurrentDictionary<int * int, HashSet<int * int>>()
+
+
+        let hashSetFactory = fun _ -> HashSet<int * int>()
+
+        let ensurePresent key (dict: ConcurrentDictionary<int * int, HashSet<int * int>>) =
+            dict.GetOrAdd(key, HashSet<_>())
 
         member x.RowCount = rows
         member x.ColumnCount = cols
-        member x.AddLink(fromCell, toCell) = 
-            let hs = ensurePresent fromCell
-            hs.Add(toCell) |> ignore
-        member x.HasLink(fromCell, toCell) = 
-            let (exists, value) = links.TryGetValue fromCell
-            if exists 
-            then value.Contains(toCell)
-            else false
-            
-            
+
+        member x.AddLink(fromCell, toCell) =
+            links.GetOrAdd(fromCell, hashSetFactory).Add(toCell) |> ignore
+            links.GetOrAdd(toCell, hashSetFactory).Add(fromCell) |> ignore
+
+        member x.HasLink(fromCell, toCell) =
+            let (fromExists, fromLinks) = links.TryGetValue fromCell
+            let (toExists, toLinks) = links.TryGetValue toCell            
+
+            (fromExists &&  fromLinks.Contains(toCell)) ||
+            (toExists && toLinks.Contains(fromCell))
+
 
     let private appendChar (c: char) (sb: StringBuilder) = sb.Append(c) |> ignore
     let private appendStr (s: string) (sb: StringBuilder) = sb.Append(s) |> ignore
@@ -64,10 +67,9 @@ module Core =
                 yield! makeRow rowIndex
             yield makeBottomEdge maxRow ]
 
-    let withLink cellFrom cellTo  (gridBuilder: GridBuilder) : GridBuilder = 
-        gridBuilder.AddLink (cellFrom, cellTo)
+    let withLink cellFrom cellTo (gridBuilder: GridBuilder): GridBuilder =
+        gridBuilder.AddLink(cellFrom, cellTo)
         gridBuilder
-        
 
-    let hasLink cellFrom cellTo (gridBuider: GridBuilder) : bool =
-        gridBuider.HasLink(cellFrom, cellTo)
+
+    let hasLink cellFrom cellTo (gridBuider: GridBuilder): bool = gridBuider.HasLink(cellFrom, cellTo)
