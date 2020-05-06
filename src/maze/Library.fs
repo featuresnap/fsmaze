@@ -19,11 +19,11 @@ module Core =
         member x.RowCount = rows
         member x.ColumnCount = cols
 
-        member x.AddLink(fromCell, toCell) =
+        member internal x.AddLink(fromCell, toCell) =
             links.GetOrAdd(fromCell, hashSetFactory).Add(toCell) |> ignore
             links.GetOrAdd(toCell, hashSetFactory).Add(fromCell) |> ignore
 
-        member x.HasLink(fromCell, toCell) =
+        member internal x.HasLink(fromCell, toCell) =
             let (fromExists, fromLinks) = links.TryGetValue fromCell
             let (toExists, toLinks) = links.TryGetValue toCell            
 
