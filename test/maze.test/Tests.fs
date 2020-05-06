@@ -3,6 +3,7 @@ module Tests
 open Xunit
 open FsUnit.Xunit
 open Maze.Core
+open Maze.TextDisplay
 
 [<Fact>]
 let ``string representation of empty grid is empty string``() =
