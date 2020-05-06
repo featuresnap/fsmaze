@@ -4,14 +4,11 @@ module Core =
     open System.Collections.Generic
     open System.Collections.Concurrent
 
-    type GridBuilder(rows, cols) =
+    type GridBuilder(rows: int, cols: int) =
         let links =
             ConcurrentDictionary<int * int, HashSet<int * int>>()
 
         let hashSetFactory = fun _ -> HashSet<int * int>()
-
-        let ensurePresent key (dict: ConcurrentDictionary<int * int, HashSet<int * int>>) =
-            dict.GetOrAdd(key, HashSet<_>())
 
         member x.RowCount = rows
         member x.ColumnCount = cols
