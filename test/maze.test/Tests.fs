@@ -97,3 +97,17 @@ let ``string representation - internal links within same column``() =
     |> display
     |> should matchList expected
 
+[<Fact>]
+let ``string representation - internal links both directions``() =
+    let expected = [ 
+        "+---+---+"; 
+        "|       |"; 
+        "+---+   +" 
+        "|   |   |"; 
+        "+---+---+" ]
+    GridBuilder(2, 2)
+    |> withLink (0,0) (0,1)
+    |> withLink (0,1) (1,1)
+    |> display
+    |> should matchList expected
+

@@ -16,6 +16,7 @@ module TextDisplay =
         let topWall = "+---"
         let topOpen = "+   "
         let middles = "|   "
+        let middleOpen = "    "
 
         let makeRow rowIndex =
             [ let sbTop = StringBuilder()
@@ -26,8 +27,9 @@ module TextDisplay =
                   then sbTop |> appendStr topOpen
                   else sbTop |> appendStr topWall
 
-
-                  sbMiddle |> appendStr middles
+                  if gridBuilder |> hasLink (rowIndex, col - 1) (rowIndex, col) 
+                  then sbMiddle |> appendStr middleOpen
+                  else sbMiddle |> appendStr middles
 
               sbTop |> appendChar '+'
               sbMiddle |> appendChar '|'
