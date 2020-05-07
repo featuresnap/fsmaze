@@ -4,6 +4,8 @@ module Core =
     open System.Collections.Generic
     open System.Collections.Concurrent
 
+    type ExitDirection = |Top |Right |Bottom |Left
+
     type GridBuilder(rows: int, cols: int) =
         let links =
             ConcurrentDictionary<int * int, HashSet<int * int>>()
@@ -31,3 +33,13 @@ module Core =
         gridBuilder
 
     let hasLink cellFrom cellTo (gridBuider: GridBuilder): bool = gridBuider.HasLink(cellFrom, cellTo)
+
+    let withExit cell direction (gridBuilder: GridBuilder): GridBuilder =
+        let (rowOffset, colOffset) = 
+            match direction with 
+            |Top -> (-1,0)
+            |Right -> (0,1)
+            |Bottom -> (1,0)
+            |Left -> (0,-1)
+        let (cellRow, cellCol) = cell
+        gridBuilder |> withLink cell (cellRow + rowOffset, cellCol + colOffset)

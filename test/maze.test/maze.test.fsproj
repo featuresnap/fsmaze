@@ -6,7 +6,8 @@
     <ProjectReference Include="..\..\src\maze\maze.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests.fs" />
+    <Compile Include="CoreTests.fs" />
+    <Compile Include="TextDisplayTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="fsunit.xunit" Version="3.8.1" />
