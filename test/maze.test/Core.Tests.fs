@@ -63,7 +63,7 @@ module CoreTests =
     let ``links cells in 1 X 2 grid``() =
      
         GridBuilder(1, 2)
-        |> withLink (0,0) (0,1)
+        |> addLink (0,0) Right
         |> hasLink (0,0) (0,1)
         |> should be True
 

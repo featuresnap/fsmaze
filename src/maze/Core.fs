@@ -28,18 +28,21 @@ module Core =
             (fromExists && fromLinks.Contains(toCell))
             || (toExists && toLinks.Contains(fromCell))
 
-    let withLink cellFrom cellTo (gridBuilder: GridBuilder): GridBuilder =
-        gridBuilder.AddLink(cellFrom, cellTo)
-        gridBuilder
-
-    let hasLink cellFrom cellTo (gridBuider: GridBuilder): bool = gridBuider.HasLink(cellFrom, cellTo)
-
-    let withExit cell direction (gridBuilder: GridBuilder): GridBuilder =
+    let offset  direction (cellRow, cellCol)= 
         let (rowOffset, colOffset) = 
             match direction with 
             |Top -> (-1,0)
             |Right -> (0,1)
             |Bottom -> (1,0)
             |Left -> (0,-1)
-        let (cellRow, cellCol) = cell
-        gridBuilder |> withLink cell (cellRow + rowOffset, cellCol + colOffset)
+        (cellRow + rowOffset, cellCol + colOffset)
+        
+    let addLink cellFrom direction (gridBuilder: GridBuilder) : GridBuilder = 
+        let linkedCell = cellFrom |> offset direction
+        gridBuilder.AddLink(cellFrom, linkedCell)
+        gridBuilder
+
+    let hasLink cellFrom cellTo (gridBuider: GridBuilder): bool = gridBuider.HasLink(cellFrom, cellTo)
+
+    let withExit cell direction (gridBuilder: GridBuilder): GridBuilder =
+        gridBuilder |> addLink cell direction

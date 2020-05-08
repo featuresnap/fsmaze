@@ -10,7 +10,7 @@ module CoreTests =
     let ``links cells in 1 X 2 grid``() =
      
         GridBuilder(1, 2)
-        |> withLink (0,0) (0,1)
+        |> addLink (0,0) Right
         |> hasLink (0,0) (0,1)
         |> should be True
 
@@ -18,7 +18,7 @@ module CoreTests =
     let ``links cells in 1 X 2 grid includes reverse link``() =
      
         GridBuilder(1, 2)
-        |> withLink (0,0) (0,1)
+        |> addLink (0,0) Right
         |> hasLink (0,1) (0,0)
         |> should be True
 
@@ -26,8 +26,8 @@ module CoreTests =
     let ``links cells in 2 X 2 grid includes reverse link``() =
      
         GridBuilder(2, 2)
-        |> withLink (0,0) (0,1)
-        |> withLink (0,0) (1,0)
+        |> addLink (0,0) Right
+        |> addLink (0,0) Bottom
         |> hasLink (0,1) (0,0)
         |> should be True
 
