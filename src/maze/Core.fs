@@ -4,7 +4,11 @@ module Core =
     open System.Collections.Generic
     open System.Collections.Concurrent
 
-    type ExitDirection = |Top |Right |Bottom |Left
+    type ExitDirection =
+        | Top
+        | Right
+        | Bottom
+        | Left
 
     type GridBuilder(rows: int, cols: int) =
         let links =
@@ -28,21 +32,21 @@ module Core =
             (fromExists && fromLinks.Contains(toCell))
             || (toExists && toLinks.Contains(fromCell))
 
-    let offset  direction (cellRow, cellCol)= 
-        let (rowOffset, colOffset) = 
-            match direction with 
-            |Top -> (-1,0)
-            |Right -> (0,1)
-            |Bottom -> (1,0)
-            |Left -> (0,-1)
+    let offset direction (cellRow, cellCol) =
+        let (rowOffset, colOffset) =
+            match direction with
+            | Top -> (-1, 0)
+            | Right -> (0, 1)
+            | Bottom -> (1, 0)
+            | Left -> (0, -1)
+
         (cellRow + rowOffset, cellCol + colOffset)
-        
-    let addLink cellFrom direction (gridBuilder: GridBuilder) : GridBuilder = 
+
+    let addLink cellFrom direction (gridBuilder: GridBuilder): GridBuilder =
         let linkedCell = cellFrom |> offset direction
         gridBuilder.AddLink(cellFrom, linkedCell)
         gridBuilder
 
     let hasLink cellFrom cellTo (gridBuider: GridBuilder): bool = gridBuider.HasLink(cellFrom, cellTo)
 
-    let withExit cell direction (gridBuilder: GridBuilder): GridBuilder =
-        gridBuilder |> addLink cell direction
+    let withExit cell direction (gridBuilder: GridBuilder): GridBuilder = gridBuilder |> addLink cell direction

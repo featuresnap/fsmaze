@@ -1,5 +1,5 @@
 namespace Maze.Test
-    
+
 module CoreTests =
 
     open Xunit
@@ -7,63 +7,58 @@ module CoreTests =
     open Maze.Core
 
     [<Fact>]
-    let ``links cells in 1 X 2 grid``() =
-     
+    let ``links cells in 1 X 2 grid`` () =
+
         GridBuilder(1, 2)
-        |> addLink (0,0) Right
-        |> hasLink (0,0) (0,1)
+        |> addLink (0, 0) Right
+        |> hasLink (0, 0) (0, 1)
         |> should be True
 
     [<Fact>]
-    let ``links cells in 1 X 2 grid includes reverse link``() =
-     
+    let ``links cells in 1 X 2 grid includes reverse link`` () =
+
         GridBuilder(1, 2)
-        |> addLink (0,0) Right
-        |> hasLink (0,1) (0,0)
+        |> addLink (0, 0) Right
+        |> hasLink (0, 1) (0, 0)
         |> should be True
 
     [<Fact>]
-    let ``links cells in 2 X 2 grid includes reverse link``() =
-     
+    let ``links cells in 2 X 2 grid includes reverse link`` () =
+
         GridBuilder(2, 2)
-        |> addLink (0,0) Right
-        |> addLink (0,0) Bottom
-        |> hasLink (0,1) (0,0)
+        |> addLink (0, 0) Right
+        |> addLink (0, 0) Bottom
+        |> hasLink (0, 1) (0, 0)
         |> should be True
 
     [<Fact>]
-    let ``add left exit at top left corner``() =
-     
+    let ``add left exit at top left corner`` () =
+
         GridBuilder(2, 2)
-        |> withExit (0,0) Left
-        |> hasLink (0,0) (0,-1)
+        |> withExit (0, 0) Left
+        |> hasLink (0, 0) (0, -1)
         |> should be True
 
     [<Fact>]
-    let ``add top exit at top left corner``() =
-     
+    let ``add top exit at top left corner`` () =
+
         GridBuilder(2, 2)
-        |> withExit (0,0) Top
-        |> hasLink (0,0) (-1,0)
+        |> withExit (0, 0) Top
+        |> hasLink (0, 0) (-1, 0)
         |> should be True
 
     [<Fact>]
-    let ``add right exit at bottom right corner``() =
-     
+    let ``add right exit at bottom right corner`` () =
+
         GridBuilder(2, 2)
-        |> withExit (1,1) Right
-        |> hasLink (1,1) (1,2)
+        |> withExit (1, 1) Right
+        |> hasLink (1, 1) (1, 2)
         |> should be True
 
     [<Fact>]
-    let ``add bottom exit at bottom right corner``() =
-     
+    let ``add bottom exit at bottom right corner`` () =
+
         GridBuilder(2, 2)
-        |> withExit (1,1) Bottom
-        |> hasLink (1,1) (2,1)
+        |> withExit (1, 1) Bottom
+        |> hasLink (1, 1) (2, 1)
         |> should be True
-
-
-
-
-
