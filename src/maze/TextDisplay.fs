@@ -23,11 +23,11 @@ module TextDisplay =
               let sbMiddle = StringBuilder()
 
               for col in 0 .. maxCol do
-                  if gridBuilder |> hasLink (rowIndex - 1, col) (rowIndex, col)
+                  if gridBuilder |> hasLink (rowIndex, col) Top
                   then sbTop |> appendStr topOpen
                   else sbTop |> appendStr topWall
 
-                  if gridBuilder |> hasLink (rowIndex, col - 1) (rowIndex, col) 
+                  if gridBuilder |> hasLink (rowIndex, col) Left
                   then sbMiddle |> appendStr middleOpen
                   else sbMiddle |> appendStr middleWall
 

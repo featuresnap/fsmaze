@@ -30,12 +30,11 @@ module Core =
 
         member internal x.AddLink(fromCell, direction) =
             let toCell = fromCell |> offset direction
-            links.GetOrAdd(fromCell, hashSetFactory).Add(toCell)
-            |> ignore
-            links.GetOrAdd(toCell, hashSetFactory).Add(fromCell)
-            |> ignore
+            links.GetOrAdd(fromCell, hashSetFactory).Add(toCell) |> ignore
+            links.GetOrAdd(toCell, hashSetFactory).Add(fromCell) |> ignore
 
-        member internal x.HasLink(fromCell, toCell) =
+        member internal x.HasLink(fromCell, direction) =
+            let toCell = fromCell |> offset direction
             let (fromExists, fromLinks) = links.TryGetValue fromCell
             let (toExists, toLinks) = links.TryGetValue toCell
 
@@ -47,6 +46,4 @@ module Core =
         gridBuilder.AddLink(cellFrom, direction)
         gridBuilder
 
-    let hasLink cellFrom cellTo (gridBuider: GridBuilder): bool = gridBuider.HasLink(cellFrom, cellTo)
-
-    let withExit cell direction (gridBuilder: GridBuilder): GridBuilder = gridBuilder |> addLink cell direction
+    let hasLink cellFrom direction (gridBuider: GridBuilder): bool = gridBuider.HasLink(cellFrom, direction)

@@ -11,7 +11,7 @@ module CoreTests =
 
         GridBuilder(1, 2)
         |> addLink (0, 0) Right
-        |> hasLink (0, 0) (0, 1)
+        |> hasLink (0, 0) Right
         |> should be True
 
     [<Fact>]
@@ -19,7 +19,7 @@ module CoreTests =
 
         GridBuilder(1, 2)
         |> addLink (0, 0) Right
-        |> hasLink (0, 1) (0, 0)
+        |> hasLink (0, 1) Left
         |> should be True
 
     [<Fact>]
@@ -28,37 +28,37 @@ module CoreTests =
         GridBuilder(2, 2)
         |> addLink (0, 0) Right
         |> addLink (0, 0) Bottom
-        |> hasLink (0, 1) (0, 0)
+        |> hasLink (0, 1) Left
         |> should be True
 
     [<Fact>]
     let ``add left exit at top left corner`` () =
 
         GridBuilder(2, 2)
-        |> withExit (0, 0) Left
-        |> hasLink (0, 0) (0, -1)
+        |> addLink (0, 0) Left
+        |> hasLink (0, 0) Left
         |> should be True
 
     [<Fact>]
     let ``add top exit at top left corner`` () =
 
         GridBuilder(2, 2)
-        |> withExit (0, 0) Top
-        |> hasLink (0, 0) (-1, 0)
+        |> addLink (0, 0) Top
+        |> hasLink (0, 0) Top
         |> should be True
 
     [<Fact>]
     let ``add right exit at bottom right corner`` () =
 
         GridBuilder(2, 2)
-        |> withExit (1, 1) Right
-        |> hasLink (1, 1) (1, 2)
+        |> addLink (1, 1) Right
+        |> hasLink (1, 1) Right
         |> should be True
 
     [<Fact>]
     let ``add bottom exit at bottom right corner`` () =
 
         GridBuilder(2, 2)
-        |> withExit (1, 1) Bottom
-        |> hasLink (1, 1) (2, 1)
+        |> addLink (1, 1) Bottom
+        |> hasLink (1, 1) Bottom
         |> should be True
