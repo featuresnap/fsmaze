@@ -4,11 +4,20 @@ module Core =
     open System.Collections.Generic
     open System.Collections.Concurrent
 
-    type ExitDirection =
+    type OffsetDirection =
         | Top
         | Right
         | Bottom
         | Left
+
+    let offset direction (cellRow, cellCol) =
+        let (rowOffset, colOffset) =
+            match direction with
+            | Top -> (-1, 0)
+            | Right -> (0, 1)
+            | Bottom -> (1, 0)
+            | Left -> (0, -1)
+        (cellRow + rowOffset, cellCol + colOffset)
 
     type GridBuilder(rows: int, cols: int) =
         let links =
@@ -19,7 +28,8 @@ module Core =
         member x.RowCount = rows
         member x.ColumnCount = cols
 
-        member internal x.AddLink(fromCell, toCell) =
+        member internal x.AddLink(fromCell, direction) =
+            let toCell = fromCell |> offset direction
             links.GetOrAdd(fromCell, hashSetFactory).Add(toCell)
             |> ignore
             links.GetOrAdd(toCell, hashSetFactory).Add(fromCell)
@@ -32,19 +42,9 @@ module Core =
             (fromExists && fromLinks.Contains(toCell))
             || (toExists && toLinks.Contains(fromCell))
 
-    let offset direction (cellRow, cellCol) =
-        let (rowOffset, colOffset) =
-            match direction with
-            | Top -> (-1, 0)
-            | Right -> (0, 1)
-            | Bottom -> (1, 0)
-            | Left -> (0, -1)
-
-        (cellRow + rowOffset, cellCol + colOffset)
-
     let addLink cellFrom direction (gridBuilder: GridBuilder): GridBuilder =
         let linkedCell = cellFrom |> offset direction
-        gridBuilder.AddLink(cellFrom, linkedCell)
+        gridBuilder.AddLink(cellFrom, direction)
         gridBuilder
 
     let hasLink cellFrom cellTo (gridBuider: GridBuilder): bool = gridBuider.HasLink(cellFrom, cellTo)
