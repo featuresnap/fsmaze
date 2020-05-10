@@ -91,6 +91,19 @@ module TextDisplayTests =
         |> addLink (0, 1) Bottom
         |> display
         |> should matchList expected
+    
+    [<Fact>]
+    let ``right and bottom exits`` () =
+        let expected =
+            [ "+---+"
+              "|    "
+              "+   +" ]
+
+        GridBuilder(1, 1)
+        |> addLink (0, 0) Right
+        |> addLink (0, 0) Bottom
+        |> display
+        |> should matchList expected
 
     [<Fact>]
     let ``string representation of 3 X 3 grid with entry and exit`` () =

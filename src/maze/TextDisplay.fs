@@ -42,7 +42,9 @@ module TextDisplay =
         let makeBottomEdge maxRow =
             let sb = StringBuilder()
             for col in 0 .. maxCol do
-                sb |> appendStr "+---"
+                if gridBuilder |> hasLink (maxRow, col) Bottom
+                then sb |> appendStr "+   "
+                else sb |> appendStr "+---"
             sb.Append('+') |> string
 
         [ if maxRow >= 0 && maxCol >= 0 then
