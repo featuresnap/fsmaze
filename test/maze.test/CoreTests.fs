@@ -10,8 +10,8 @@ module CoreTests =
 
     let fixture = Fixture()
     let r = Random()
-    
-    fixture.Register<OffsetDirection>(fun () -> 
+
+    fixture.Register<OffsetDirection>(fun () ->
         let index = r.Next(4)
         OffsetDirection.ALL |> List.item index)
 
@@ -41,37 +41,20 @@ module CoreTests =
         |> should be True
 
     [<Fact>]
-    let ``add left exit at top left corner`` () =
-
+    let ``add single link at top left corner`` () =
+        let direction = fixture.Create<OffsetDirection>()
         GridBuilder(2, 2)
-        |> addLink (0, 0) Left
-        |> hasLink (0, 0) Left
+        |> addLink (0, 0) direction
+        |> hasLink (0, 0) direction
         |> should be True
 
     [<Fact>]
-    let ``add top exit at top left corner`` () =
-
+    let ``add single link at bottom right corner`` () =
+        let direction = fixture.Create<OffsetDirection>()
         GridBuilder(2, 2)
-        |> addLink (0, 0) Top
-        |> hasLink (0, 0) Top
+        |> addLink (1, 1) direction
+        |> hasLink (1, 1) direction
         |> should be True
-
-    [<Fact>]
-    let ``add right exit at bottom right corner`` () =
-
-        GridBuilder(2, 2)
-        |> addLink (1, 1) Right
-        |> hasLink (1, 1) Right
-        |> should be True
-
-    [<Fact>]
-    let ``add bottom exit at bottom right corner`` () =
-
-        GridBuilder(2, 2)
-        |> addLink (1, 1) Bottom
-        |> hasLink (1, 1) Bottom
-        |> should be True
-
 
     [<Fact>]
     let ``openDirections for single cell with no exit is empty`` () =
@@ -80,16 +63,21 @@ module CoreTests =
         |> should be Empty
 
     [<Fact>]
-    let ``openDirections for single exit right`` () =
-        GridBuilder(1, 1)
-        |> addLink (0, 0) Right
-        |> openDirections (0, 0)
-        |> should matchList [ Right ]
-
-    [<Fact>]
-    let ``openDirections for single exit left`` () =
+    let ``openDirections for single cell with single exit contains correct direction`` () =
         let direction = fixture.Create<OffsetDirection>()
         GridBuilder(1, 1)
         |> addLink (0, 0) direction
         |> openDirections (0, 0)
         |> should matchList [ direction ]
+
+    [<Fact>]
+    let ``openDirections for single cell matchList number of directions`` () =
+        let someDirections =
+            fixture.CreateMany<OffsetDirection>(4)
+            |> Seq.distinct
+
+        let gridBuilder = GridBuilder(1, 1)
+        someDirections
+        |> Seq.fold (fun gb dir -> gb |> addLink (0, 0) dir) gridBuilder
+        |> openDirections (0, 0)
+        |> should matchList (someDirections |> List.ofSeq)
