@@ -62,3 +62,10 @@ module CoreTests =
         |> addLink (1, 1) Bottom
         |> hasLink (1, 1) Bottom
         |> should be True
+
+
+    [<Fact>]
+    let ``countLinks for single cell``() =
+        GridBuilder(1,1)
+        |> openDirections (0,0) 
+        |> should be Empty 

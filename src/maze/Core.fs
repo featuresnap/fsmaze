@@ -47,3 +47,6 @@ module Core =
         gridBuilder
 
     let hasLink cellFrom direction (gridBuider: GridBuilder): bool = gridBuider.HasLink(cellFrom, direction)
+
+    let openDirections cell gridBuider =
+        []
