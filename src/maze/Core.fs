@@ -9,6 +9,7 @@ module Core =
         | Right
         | Bottom
         | Left
+        static member ALL = [ Top; Right; Bottom; Left ]
 
     let offset direction (cellRow, cellCol) =
         let (rowOffset, colOffset) =
@@ -17,6 +18,7 @@ module Core =
             | Right -> (0, 1)
             | Bottom -> (1, 0)
             | Left -> (0, -1)
+
         (cellRow + rowOffset, cellCol + colOffset)
 
     type GridBuilder(rows: int, cols: int) =
@@ -30,8 +32,10 @@ module Core =
 
         member internal x.AddLink(fromCell, direction) =
             let toCell = fromCell |> offset direction
-            links.GetOrAdd(fromCell, hashSetFactory).Add(toCell) |> ignore
-            links.GetOrAdd(toCell, hashSetFactory).Add(fromCell) |> ignore
+            links.GetOrAdd(fromCell, hashSetFactory).Add(toCell)
+            |> ignore
+            links.GetOrAdd(toCell, hashSetFactory).Add(fromCell)
+            |> ignore
 
         member internal x.HasLink(fromCell, direction) =
             let toCell = fromCell |> offset direction
@@ -48,5 +52,6 @@ module Core =
 
     let hasLink cellFrom direction (gridBuider: GridBuilder): bool = gridBuider.HasLink(cellFrom, direction)
 
-    let openDirections cell gridBuider =
-        []
+    let openDirections cell gridBuider = 
+        OffsetDirection.ALL
+        |> List.filter (fun direction -> gridBuider |> hasLink cell direction)

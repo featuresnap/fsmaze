@@ -65,7 +65,21 @@ module CoreTests =
 
 
     [<Fact>]
-    let ``countLinks for single cell``() =
-        GridBuilder(1,1)
-        |> openDirections (0,0) 
-        |> should be Empty 
+    let ``openDirections for single cell with no exit is empty`` () =
+        GridBuilder(1, 1)
+        |> openDirections (0, 0)
+        |> should be Empty
+
+    [<Fact>]
+    let ``openDirections for single exit right`` () =
+        GridBuilder(1, 1)
+        |> addLink (0, 0) Right
+        |> openDirections (0, 0)
+        |> should matchList [ Right ]
+
+    [<Fact>]
+    let ``openDirections for single exit left`` () =
+        GridBuilder(1, 1)
+        |> addLink (0, 0) Left
+        |> openDirections (0, 0)
+        |> should matchList [ Left ]
