@@ -5,6 +5,15 @@ module CoreTests =
     open Xunit
     open FsUnit.Xunit
     open Maze.Core
+    open AutoFixture
+    open System
+
+    let fixture = Fixture()
+    let r = Random()
+    
+    fixture.Register<OffsetDirection>(fun () -> 
+        let index = r.Next(4)
+        OffsetDirection.ALL |> List.item index)
 
     [<Fact>]
     let ``links cells in 1 X 2 grid`` () =
@@ -79,7 +88,8 @@ module CoreTests =
 
     [<Fact>]
     let ``openDirections for single exit left`` () =
+        let direction = fixture.Create<OffsetDirection>()
         GridBuilder(1, 1)
-        |> addLink (0, 0) Left
+        |> addLink (0, 0) direction
         |> openDirections (0, 0)
-        |> should matchList [ Left ]
+        |> should matchList [ direction ]
