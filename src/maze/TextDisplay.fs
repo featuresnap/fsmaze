@@ -32,7 +32,9 @@ module TextDisplay =
                   else sbMiddle |> appendStr middleWall
 
               sbTop |> appendChar '+'
-              sbMiddle |> appendChar '|'
+              if gridBuilder |> hasLink (rowIndex, maxCol) Right
+              then sbMiddle |> appendChar ' '
+              else sbMiddle |> appendChar '|'
 
               yield sbTop |> string
               yield sbMiddle |> string ]

@@ -6,7 +6,7 @@ The maze is represented by a `GridBuilder` which maintains:
 - The number of rows and columns in the maze
 - The links (openings) between grid locations
 
-Links between cells are represented in a `Dictionary<int * int, HashMap<int * int>`. While I originally sought an immutable representation of links, it did not seem the best choice for rendering performance, given ~n^2 of lookups to check where links existed.
+Links between cells are represented in a `Dictionary<int * int, HashMap<int * int>`.  While I originally sought an immutable representation of links, it did not seem the best choice for rendering performance, given ~n^2 of lookups to check where links existed.
 
 ### Making Illegal States Unrepresentable when adding links
 The `AddLink` method signature originally required 2 coordinates: 
@@ -30,4 +30,20 @@ This would require validation for adjacency of the two linked cells' coordinates
             | Left -> (0, -1)
         (cellRow + rowOffset, cellCol + colOffset)
 ```
+### Functional API
+A pair of helper functions can wrap the `GridBuilder`'s methods to allow a more "functional" API.
+```
+addLink: int * int -> OffsetDirection -> GridBuilder -> GridBuilder
+hasLink: int * int -> int * int -> GridBuilder -> bool
+```
+This allows use of the pipe-forward `|>` operator: 
+```
+        GridBuilder(2, 2)
+        |> addLink (1, 1) Right
+        |> hasLink (1, 1) Right
+        |> should be True
+```
+And, to enforce use of these methods, we can now make the `GridBuilder`'s `AddLink` method `internal`:
+
+
 
