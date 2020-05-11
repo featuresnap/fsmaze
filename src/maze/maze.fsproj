@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Core.fs" />
+    <Compile Include="Generation.fs" />
     <Compile Include="TextDisplay.fs" />
   </ItemGroup>
 </Project>

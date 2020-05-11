@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{59E36E1B-4
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "maze.test", "test\maze.test\maze.test.fsproj", "{27D0AEC5-7AA4-4B48-8DF0-5EBBDD1480B0}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "maze.console", "src\maze.console\maze.console.fsproj", "{9630370D-BC4A-4D44-A13C-D41137B2D748}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,9 +50,22 @@ Global
 		{27D0AEC5-7AA4-4B48-8DF0-5EBBDD1480B0}.Release|x64.Build.0 = Release|Any CPU
 		{27D0AEC5-7AA4-4B48-8DF0-5EBBDD1480B0}.Release|x86.ActiveCfg = Release|Any CPU
 		{27D0AEC5-7AA4-4B48-8DF0-5EBBDD1480B0}.Release|x86.Build.0 = Release|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Debug|x64.Build.0 = Debug|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Debug|x86.Build.0 = Debug|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Release|x64.ActiveCfg = Release|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Release|x64.Build.0 = Release|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Release|x86.ActiveCfg = Release|Any CPU
+		{9630370D-BC4A-4D44-A13C-D41137B2D748}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{36B76EA7-2F50-4B06-9F27-3F107AEF0236} = {C5D304A6-7A2F-4040-8600-DAD6133FB8D3}
 		{27D0AEC5-7AA4-4B48-8DF0-5EBBDD1480B0} = {59E36E1B-42B5-470D-B604-6733503CC886}
+		{9630370D-BC4A-4D44-A13C-D41137B2D748} = {C5D304A6-7A2F-4040-8600-DAD6133FB8D3}
 	EndGlobalSection
 EndGlobal
